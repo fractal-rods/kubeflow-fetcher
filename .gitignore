@@ -1,4 +1,5 @@
 .venv
 .env
 __pycache__
-mycertfile.pem
+*.pem
+.ruff_cache
