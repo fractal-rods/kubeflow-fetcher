@@ -1,0 +1,36 @@
+exclude: "CHANGELOG.md"
+repos:
+  # Detect secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: "v1.4.0"
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: "pre-commit-config.yaml"
+  # Prettier for any YAML, README
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v3.0.0" # Use the sha or tag you want to point at
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@2.7.1
+  # Black formatter
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        language_version: python3.10
+  # Ruff linter
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.278"
+    hooks:
+      - id: ruff
+  # Additional hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: check-docstring-first
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, release]
