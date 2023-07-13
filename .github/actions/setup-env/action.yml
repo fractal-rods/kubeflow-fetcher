@@ -1,5 +1,5 @@
 name: Setup environment
-description: Setup the environment used for testing and building flutter apps
+description: Setup the environment used for testing and building apps
 runs:
   using: "composite"
   steps:
