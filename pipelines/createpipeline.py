@@ -18,5 +18,5 @@ def add_pipeline(
 
 kfp.compiler.Compiler().compile(
     pipeline_func=add_pipeline,
-    package_path='pipelines/add_pipeline.yaml'
+    package_path='add_pipeline.yaml'
     )

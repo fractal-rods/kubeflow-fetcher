@@ -7,5 +7,5 @@ def add(a: float, b: float) -> float:
 if __name__ == "__main__":
     comp.create_component_from_func(
        func=add,
-       output_component_file="components/add_component.yaml"
+       output_component_file="add_component.yaml"
        )
