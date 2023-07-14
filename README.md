@@ -1,11 +1,25 @@
 # Development
 
+Create a `.env` and populate it with
+
 ```shell
-$ python3 -m venv .venv
+KUBEFLOW_ENDPOINT = ... # address
+KUBEFLOW_USERNAME = ... # username
+KUBEFLOW_PASSWORD = ... # password
+```
 
-$ source .venv/bin/activate
+then install the required components
 
-$ pip install -r requirements
+```shell
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements
+```
+
+and run the application
+
+```shell
+python3 main.py
 ```
 
 Happy coding!
