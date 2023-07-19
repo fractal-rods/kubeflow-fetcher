@@ -36,7 +36,7 @@ if __name__ == "__main__":
             client.upload_pipeline(
                 pipeline_name=PIPELINE_NAME,
                 description="Pipeline for testing connection and SDK functionality",
-                pipeline_package_path="pipelines/add_pipeline.yaml",
+                pipeline_package_path="src/pipelines/add_pipeline.yaml",
             )
             print("Pipeline created.")
         except ApiException as e:
