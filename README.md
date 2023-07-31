@@ -15,13 +15,17 @@ python3 main.py --help
 
 # Development
 
-Create a `.env` and populate it with
+Create a `config.py` and populate it with:
 
-```shell
-KUBEFLOW_ENDPOINT = ... # address
-KUBEFLOW_USERNAME = ... # username
-KUBEFLOW_PASSWORD = ... # password
-KUBEFLOW_CERTIFICATE = ... # certificate file
+````shell
+config = {
+    "LAKEFS_HOST": <...>,
+    "LAKEFS_ID": <...>,
+    "LAKEFS_TOKEN":<...>,
+    "KUBEFLOW_HOST": <...>,
+    "KUBEFLOW_USERNAME": <...>,
+    "KUBEFLOW_PASSWORD": <...>,
+}
 ```
 
 install the required components
@@ -39,3 +43,4 @@ pre-commit install
 ```
 
 Happy coding!
+````
