@@ -5,8 +5,6 @@
 
 # Usage
 
-<<<<<<< HEAD
-
 ```shell
 python3 -m venv .venv
 source .venv/bin/activate
@@ -28,26 +26,6 @@ config = {
     "KUBEFLOW_USERNAME": <...>,
     "KUBEFLOW_PASSWORD": <...>,
 }
-=======
-
-```shell
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python3 main.py --help
-````
-
-# Development
-
-Create a `.env` and populate it with
-
-```shell
-KUBEFLOW_ENDPOINT = ... # address
-KUBEFLOW_USERNAME = ... # username
-KUBEFLOW_PASSWORD = ... # password
-KUBEFLOW_CERTIFICATE = ... # certificate file
->>>>>>> main
 ```
 
 install the required components
@@ -65,3 +43,4 @@ pre-commit install
 ```
 
 Happy coding!
+````
