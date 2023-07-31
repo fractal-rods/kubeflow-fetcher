@@ -1,5 +1,6 @@
 .venv
-.env
+*.env
 __pycache__
 *.pem
 .ruff_cache
+config.py
