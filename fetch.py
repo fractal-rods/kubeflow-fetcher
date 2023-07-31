@@ -8,6 +8,7 @@ urllib3.disable_warnings()
 REPOSITORY = "testing"
 BRANCH = "main"
 MODEL = "model.txt"
+EXPERIMENT = "AIF team development experiments"
 
 
 def check_config() -> bool:
@@ -92,16 +93,40 @@ def get_pipeline_id() -> str:
     exit(1)
 
 
-def run_pipeline(id: str):
+def run_pipeline(pipeline_id: str, experiment_id: str) -> str:
     response = session.post(
         f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/runs",
         json={
-            "name": "test-run",
-            "pipeline_spec": {"pipeline_id": pipeline_id},
+            "name": "fetcher-test-run",
+            "pipeline_spec": {
+                "pipeline_id": pipeline_id,
+            },
+            "resource_references": [
+                {
+                    "relationship": "OWNER",
+                    "key": {
+                        "type": "EXPERIMENT",
+                        "id": experiment_id,
+                    },
+                },
+            ],
         },
-    ).json()
+    )
 
-    print(response)
+    data = response.json()
+    return data["run"]["id"]
+
+
+def get_experiment_id() -> str:
+    response = session.get(
+        f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/experiments?resource_reference_key.type=NAMESPACE&resource_reference_key.id=oulu-profile",
+    )
+    print("Using experiment", EXPERIMENT)
+    for experiment in response.json()["experiments"]:
+        if experiment["name"] == EXPERIMENT:
+            return experiment["id"]
+    print("Experiment not found.")
+    exit(1)
 
 
 if __name__ == "__main__":
@@ -109,10 +134,9 @@ if __name__ == "__main__":
         print("Configuration OK.")
     session = login_to_kubeflow()
     pipeline_id = get_pipeline_id()
+    print(pipeline_id)
     if pipeline_id:
         print("Pipeline OK.")
-        run_pipeline(pipeline_id)
-
-    # token = login_to_lakefs()
-    # print(token)
-    # upload_model(token)
+        experiment_id = get_experiment_id()
+        run_id = run_pipeline(pipeline_id, experiment_id)
+        print("Started run", run_id)
