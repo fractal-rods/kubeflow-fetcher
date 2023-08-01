@@ -7,16 +7,20 @@ MODEL = "model.txt"
 
 
 def get_data(token: str):
+    print("Downloading new model...", end="")
     url = (
         config.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/refs/{BRANCH}/objects?path={MODEL}"
     )
     response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
-    print(response.text)
-    return
+    if response.status_code == 200:
+        print("OK")
+    else:
+        print("Couldn't download model file:", response.status_code)
 
 
 def upload_data(token: str):
+    print("Uploading model...", end="")
     url = (
         config.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/branches/{BRANCH}/objects?path={MODEL}"
@@ -29,8 +33,11 @@ def upload_data(token: str):
                 "Authorization": f"Bearer {token}",
             },
         )
-        print(response.json())
-    return
+    if response.status_code == 201:
+        print("OK")
+    else:
+        print("\nUpload failed:", response.status_code)
+        exit(1)
 
 
 def login_to_lakefs() -> str:

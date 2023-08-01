@@ -58,7 +58,7 @@ def get_experiment_id(session: requests.Session) -> str:
     response = session.get(
         f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/experiments?resource_reference_key.type=NAMESPACE&resource_reference_key.id=oulu-profile",
     )
-    print("Using experiment", EXPERIMENT)
+    print(f"Using experiment '{EXPERIMENT}'")
     for experiment in response.json()["experiments"]:
         if experiment["name"] == EXPERIMENT:
             return experiment["id"]

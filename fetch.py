@@ -30,18 +30,21 @@ if __name__ == "__main__":
     if check_config():
         print("Configuration OK.")
 
-    print("connecting to lakefs...")
+    # Step 1. Upload model
+    print(end="Connecting to lakefs...")
     token = login_to_lakefs()
-    print("connection established")
+    print("OK")
     upload_data(token)
-    get_data(token)
 
-    print("connecting to kubeflow...")
+    # Step 2. Trigger training
+    print(end="Connecting to kubeflow...")
     session = login_to_kubeflow()
-    print("connection established")
+    print("OK")
     pipeline_id = get_pipeline_id(session)
     if pipeline_id:
-        print("Pipeline OK.")
         experiment_id = get_experiment_id(session)
         run_id = run_pipeline(session, pipeline_id, experiment_id)
         print("Started run", run_id)
+
+        # Step 3. Download results
+        get_data(token)
