@@ -17,7 +17,7 @@ python3 main.py --help
 
 Create a `config.py` and populate it with:
 
-````shell
+```shell
 config = {
     "LAKEFS_HOST": <...>,
     "LAKEFS_ID": <...>,
@@ -25,6 +25,7 @@ config = {
     "KUBEFLOW_HOST": <...>,
     "KUBEFLOW_USERNAME": <...>,
     "KUBEFLOW_PASSWORD": <...>,
+
 }
 ```
 
@@ -43,4 +44,3 @@ pre-commit install
 ```
 
 Happy coding!
-````
