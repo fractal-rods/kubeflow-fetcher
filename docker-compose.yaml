@@ -1,0 +1,5 @@
+services:
+  lakefs-test-client:
+    build: src/lakefs/
+    env_file:
+      - .env
