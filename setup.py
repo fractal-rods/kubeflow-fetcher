@@ -1,4 +1,4 @@
-from config import config
+import os
 from src.authsession import get_istio_auth_session
 from src.utils import parse_args
 import urllib3
@@ -10,10 +10,10 @@ PIPELINE_NAME = "test-pipeline"
 
 if __name__ == "__main__":
     try:
-        HOST = config.get("KUBEFLOW_HOST")
-        USER = config.get("KUBEFLOW_USERNAME")
-        PASS = config.get("KUBEFLOW_PASSWORD")
-        CERTIFICATE = config.get("KUBEFLOW_SSL_CERTIFICATE")
+        HOST = os.environ.get("KUBEFLOW_HOST")
+        USER = os.environ.get("KUBEFLOW_USERNAME")
+        PASS = os.environ.get("KUBEFLOW_PASSWORD")
+        CERTIFICATE = os.environ.get("KUBEFLOW_SSL_CERTIFICATE")
         NAMESPACE = "-"
     except Exception as e:
         print(e)

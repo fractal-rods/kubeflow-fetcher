@@ -1,5 +1,5 @@
-from config import config
 import requests
+import os
 
 REPOSITORY = "fractal"
 BRANCH = "uoulu-testing"
@@ -9,20 +9,22 @@ MODEL = "model.txt"
 def get_data(token: str):
     print("Downloading new model...", end="")
     url = (
-        config.get("LAKEFS_HOST")
+        os.environ.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/refs/{BRANCH}/objects?path={MODEL}"
     )
     response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
     if response.status_code == 200:
         print("OK")
+
+        print("response: \n" + response.text)
     else:
         print("Couldn't download model file:", response.status_code)
 
 
-def upload_data(token: str):
+def post_data(token: str):
     print("Uploading model...", end="")
     url = (
-        config.get("LAKEFS_HOST")
+        os.environ.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/branches/{BRANCH}/objects?path={MODEL}"
     )
     with open(MODEL, "rb") as file:
@@ -41,14 +43,19 @@ def upload_data(token: str):
 
 
 def login_to_lakefs() -> str:
-    url = config.get("LAKEFS_HOST") + "/api/v1/auth/login"
+    url = os.environ.get("LAKEFS_HOST") + "/api/v1/auth/login"
     response = requests.post(
         url,
         verify=False,
         json={
-            "access_key_id": config.get("LAKEFS_ID"),
-            "secret_access_key": config.get("LAKEFS_TOKEN"),
+            "access_key_id": os.environ.get("LAKEFS_ID"),
+            "secret_access_key": os.environ.get("LAKEFS_TOKEN"),
         },
     )
     body = response.json()
     return body["token"]
+
+
+if __name__ == "__main__":
+    token = login_to_lakefs()
+    get_data(token)
