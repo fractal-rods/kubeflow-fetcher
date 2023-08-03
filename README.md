@@ -6,27 +6,20 @@
 # Usage
 
 ```shell
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python3 main.py --help
+python3 fetch.py
 ```
 
 # Development
 
-Create a `config.py` and populate it with:
+Create `.env` and populate it with:
 
 ```shell
-config = {
-    "LAKEFS_HOST": <...>,
-    "LAKEFS_ID": <...>,
-    "LAKEFS_TOKEN":<...>,
-    "KUBEFLOW_HOST": <...>,
-    "KUBEFLOW_USERNAME": <...>,
-    "KUBEFLOW_PASSWORD": <...>,
-
-}
+"LAKEFS_HOST"=<...>,
+"LAKEFS_ID"=<...>,
+"LAKEFS_TOKEN"=<...>,
+"KUBEFLOW_HOST"=<...>,
+"KUBEFLOW_USERNAME"=<...>,
+"KUBEFLOW_PASSWORD"=<...>,
 ```
 
 install the required components
