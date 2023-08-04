@@ -22,6 +22,12 @@ Create `.env` and populate it with:
 "KUBEFLOW_PASSWORD"=<...>,
 ```
 
+Run this command to initialize the .env
+
+```shell
+export $(cat .env | xargs)
+```
+
 install the required components
 
 ```shell

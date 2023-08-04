@@ -21,11 +21,10 @@ def check_config() -> bool:
         "KUBEFLOW_PASSWORD",
     ]
     for key in keys:
-        key = os.environ.get(key)
-        if not key:
+        if not os.environ.get(key):
             print(f"{key} missing from config")
             exit(1)
-        if len(key) <= 1:
+        if len(os.environ.get(key)) <= 1:
             print(f"appears that {key} is too short... check if correct")
 
 
