@@ -1,12 +1,12 @@
 import os
 import urllib3
-from src.kubeflow.client import (
+from src.kubeflow_client import (
     get_experiment_id,
     get_pipeline_id,
     login_to_kubeflow,
     run_pipeline,
 )
-from src.lakefs.client import login_to_lakefs, get_data, post_data
+from src.lakefs_client import login_to_lakefs, get_data, post_data
 
 urllib3.disable_warnings()
 

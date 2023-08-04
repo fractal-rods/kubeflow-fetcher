@@ -55,22 +55,3 @@ def post_data(token: str) -> None:
     else:
         print("\nUpload failed:", response.status_code)
         exit(1)
-
-
-if __name__ == "__main__":
-    # 1.Login
-    token = login_to_lakefs()
-
-    # 2.Get data from response and modify it
-    response = get_data(token)
-    data = response.text
-    print("data: " + data)
-
-    data += " ...new data here also"
-    print("updated data: " + data)
-
-    # 3.Write the data into a file and send to lakefs
-    with open("model.txt", "w") as file:
-        file.write(data)
-
-    post_data(token)
