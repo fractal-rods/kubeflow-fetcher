@@ -1,7 +1,12 @@
-from src.lakefs_client import login_to_lakefs, get_data, post_data
+import kfp.components as comp
+import os
 
 
 def lakefs_test_client(host, username, password):
+    from lakefs_client import login_to_lakefs, get_data, post_data
+
+    os.environ.update(LAKEFS_HOST=host, LAKEFS_ID=username, LAKEFS_TOKEN=password)
+
     # 1.Login
     token = login_to_lakefs()
 
@@ -21,11 +26,9 @@ def lakefs_test_client(host, username, password):
 
 
 if __name__ == "__main__":
-    lakefs_test_client()
-
-    # comp.create_component_from_func(
-    #    func=lakefs_test_client,
-    #    base_image="python:3.10-alpine",
-    #    packages_to_install="requests",
-    #    output_component_file="lakefs-demo-component",
-    #    )
+    comp.create_component_from_func(
+        func=lakefs_test_client,
+        base_image="python:3.10-alpine",
+        packages_to_install=["requests"],
+        output_component_file="lakefs-demo-component.yaml",
+    )

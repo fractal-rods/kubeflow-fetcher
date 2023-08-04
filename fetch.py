@@ -6,7 +6,11 @@ from src.kubeflow_client import (
     login_to_kubeflow,
     run_pipeline,
 )
-from src.lakefs_client import login_to_lakefs, get_data, post_data
+from src.lakefs_client import (
+    login_to_lakefs,
+    get_data,
+    post_data,
+)
 
 urllib3.disable_warnings()
 
