@@ -5,7 +5,7 @@ metadata:
   annotations:
     {
       pipelines.kubeflow.org/kfp_sdk_version: 1.8.1,
-      pipelines.kubeflow.org/pipeline_compilation_time: "2023-08-04T17:48:25.170531",
+      pipelines.kubeflow.org/pipeline_compilation_time: "2023-08-04T18:12:31.162174",
       pipelines.kubeflow.org/pipeline_spec:
         '{"description": "demo pipeline for modifying
         lakefs data", "inputs": [{"default": "", "name": "lake_host", "optional": true,
@@ -70,7 +70,7 @@ spec:
               "secret token for lakefs", "name": "Token", "type": "String"}], "name":
               "modify lakefs data"}', pipelines.kubeflow.org/component_ref: '{"digest":
               "46039cc9246fb2a37b45274067b3dcb888d7c52f413e8c09c3be0be56fb1b4f5", "url":
-              "lakefs/component.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"Host":
+              "component.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"Host":
               "{{inputs.parameters.lake_host}}", "Id": "{{inputs.parameters.lake_id}}",
               "Token": "{{inputs.parameters.lake_token}}"}' }
   arguments:
