@@ -5,3 +5,4 @@ __pycache__
 .ruff_cache
 model.txt
 __init__.py
+.devenv
