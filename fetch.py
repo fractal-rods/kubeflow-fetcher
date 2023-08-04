@@ -1,12 +1,12 @@
 import os
 import urllib3
-from src.kubeflow_client import (
+from src.kubeflow.client import (
     get_experiment_id,
     get_pipeline_id,
     login_to_kubeflow,
     run_pipeline,
 )
-from src.lakefs_client import (
+from src.lakefs.client import (
     login_to_lakefs,
     get_data,
     post_data,
