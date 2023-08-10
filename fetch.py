@@ -1,4 +1,4 @@
-from config import config
+import os
 import urllib3
 from src.kubeflow.client import (
     get_experiment_id,
@@ -6,7 +6,11 @@ from src.kubeflow.client import (
     login_to_kubeflow,
     run_pipeline,
 )
-from src.lakefs.client import login_to_lakefs, get_data, upload_data
+from src.lakefs.client import (
+    login_to_lakefs,
+    get_data,
+    post_data,
+)
 
 urllib3.disable_warnings()
 
@@ -21,9 +25,11 @@ def check_config() -> bool:
         "KUBEFLOW_PASSWORD",
     ]
     for key in keys:
-        if not config.get(key):
+        if not os.environ.get(key):
             print(f"{key} missing from config")
             exit(1)
+        if len(os.environ.get(key)) <= 1:
+            print(f"appears that {key} is too short... check if correct")
 
 
 if __name__ == "__main__":
@@ -34,7 +40,7 @@ if __name__ == "__main__":
     print(end="Connecting to lakefs...")
     token = login_to_lakefs()
     print("OK")
-    upload_data(token)
+    post_data(token)
 
     # Step 2. Trigger training
     print(end="Connecting to kubeflow...")

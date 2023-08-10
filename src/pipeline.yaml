@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: lakefs-demo-pipeline-
+  annotations:
+    {
+      pipelines.kubeflow.org/kfp_sdk_version: 1.8.1,
+      pipelines.kubeflow.org/pipeline_compilation_time: "2023-08-04T18:12:31.162174",
+      pipelines.kubeflow.org/pipeline_spec:
+        '{"description": "demo pipeline for modifying
+        lakefs data", "inputs": [{"default": "", "name": "lake_host", "optional": true,
+        "type": "String"}, {"default": "", "name": "lake_id", "optional": true, "type":
+        "String"}, {"default": "", "name": "lake_token", "optional": true, "type": "String"}],
+        "name": "lakefs demo pipeline"}',
+    }
+  labels: { pipelines.kubeflow.org/kfp_sdk_version: 1.8.1 }
+spec:
+  entrypoint: lakefs-demo-pipeline
+  templates:
+    - name: lakefs-demo-pipeline
+      inputs:
+        parameters:
+          - { name: lake_host }
+          - { name: lake_id }
+          - { name: lake_token }
+      dag:
+        tasks:
+          - name: modify-lakefs-data
+            template: modify-lakefs-data
+            arguments:
+              parameters:
+                - { name: lake_host, value: "{{inputs.parameters.lake_host}}" }
+                - { name: lake_id, value: "{{inputs.parameters.lake_id}}" }
+                - {
+                    name: lake_token,
+                    value: "{{inputs.parameters.lake_token}}",
+                  }
+    - name: modify-lakefs-data
+      container:
+        args: []
+        command:
+          [
+            python3,
+            --host,
+            "{{inputs.parameters.lake_host}}",
+            --id,
+            "{{inputs.parameters.lake_id}}",
+            --token,
+            "{{inputs.parameters.lake_token}}",
+          ]
+        image: docker.io/jlotvonen/fractal:latest
+      inputs:
+        parameters:
+          - { name: lake_host }
+          - { name: lake_id }
+          - { name: lake_token }
+      metadata:
+        labels:
+          pipelines.kubeflow.org/kfp_sdk_version: 1.8.1
+          pipelines.kubeflow.org/pipeline-sdk-type: kfp
+          pipelines.kubeflow.org/enable_caching: "true"
+        annotations:
+          { pipelines.kubeflow.org/component_spec: '{"description": "demo
+              component for modifying data in lakefs... will be swapped in future.", "implementation":
+              {"container": {"command": ["python3", "--host", {"inputValue": "Host"},
+              "--id", {"inputValue": "Id"}, "--token", {"inputValue": "Token"}], "image":
+              "docker.io/jlotvonen/fractal:latest"}}, "inputs": [{"description": "host
+              address for lakefs", "name": "Host", "type": "String"}, {"description":
+              "access id for lakefs", "name": "Id", "type": "String"}, {"description":
+              "secret token for lakefs", "name": "Token", "type": "String"}], "name":
+              "modify lakefs data"}', pipelines.kubeflow.org/component_ref: '{"digest":
+              "46039cc9246fb2a37b45274067b3dcb888d7c52f413e8c09c3be0be56fb1b4f5", "url":
+              "component.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"Host":
+              "{{inputs.parameters.lake_host}}", "Id": "{{inputs.parameters.lake_id}}",
+              "Token": "{{inputs.parameters.lake_token}}"}' }
+  arguments:
+    parameters:
+      - { name: lake_host, value: "" }
+      - { name: lake_id, value: "" }
+      - { name: lake_token, value: "" }
+  serviceAccountName: pipeline-runner

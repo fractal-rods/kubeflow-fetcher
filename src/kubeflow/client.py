@@ -1,6 +1,6 @@
 import requests
 from src.authsession import get_istio_auth_session
-from config import config
+import os
 
 EXPERIMENT = "AIF team development experiments"
 
@@ -8,9 +8,9 @@ EXPERIMENT = "AIF team development experiments"
 def login_to_kubeflow() -> requests.Session:
     with requests.Session() as session:
         auth_session = get_istio_auth_session(
-            url=config["KUBEFLOW_HOST"],
-            username=config["KUBEFLOW_USERNAME"],
-            password=config["KUBEFLOW_PASSWORD"],
+            url=os.environ.get("KUBEFLOW_HOST"),
+            username=os.environ.get("KUBEFLOW_USERNAME"),
+            password=os.environ.get("KUBEFLOW_PASSWORD"),
         )
         session.verify = False
         session.headers.update({"Cookie": auth_session["session_cookie"]})
@@ -19,7 +19,7 @@ def login_to_kubeflow() -> requests.Session:
 
 def get_pipeline_id(session: requests.Session) -> str:
     response = session.get(
-        f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/pipelines"
+        f"{os.environ.get('KUBEFLOW_HOST')}/pipeline/apis/v1beta1/pipelines"
     ).json()
     for pipeline in response["pipelines"]:
         if pipeline["name"] == "add_pipeline.yaml":
@@ -32,7 +32,7 @@ def run_pipeline(
     session: requests.Session, pipeline_id: str, experiment_id: str
 ) -> str:
     response = session.post(
-        f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/runs",
+        f"{os.environ.get('KUBEFLOW_HOST')}/pipeline/apis/v1beta1/runs",
         json={
             "name": "fetcher-test-run",
             "pipeline_spec": {
@@ -56,7 +56,7 @@ def run_pipeline(
 
 def get_experiment_id(session: requests.Session) -> str:
     response = session.get(
-        f"{config['KUBEFLOW_HOST']}/pipeline/apis/v1beta1/experiments?resource_reference_key.type=NAMESPACE&resource_reference_key.id=oulu-profile",
+        f"{os.environ.get('KUBEFLOW_HOST')}/pipeline/apis/v1beta1/experiments?resource_reference_key.type=NAMESPACE&resource_reference_key.id=oulu-profile",
     )
     print(f"Using experiment '{EXPERIMENT}'")
     for experiment in response.json()["experiments"]:

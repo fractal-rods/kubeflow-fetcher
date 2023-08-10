@@ -1,0 +1,21 @@
+name: modify lakefs data
+description: demo component for modifying data in lakefs... will be swapped in future.
+
+inputs:
+  - { name: Host, type: String, description: "host address for lakefs" }
+  - { name: Id, type: String, description: "access id for lakefs" }
+  - { name: Token, type: String, description: "secret token for lakefs" }
+
+implementation:
+  container:
+    image: docker.io/jlotvonen/fractal:latest
+    command:
+      [
+        python3,
+        --host,
+        { inputValue: Host },
+        --id,
+        { inputValue: Id },
+        --token,
+        { inputValue: Token },
+      ]
