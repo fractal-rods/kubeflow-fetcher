@@ -1,0 +1,12 @@
+services:
+  relay:
+    build:
+      context: .
+      dockerfile: src/relay/dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      KUBEFLOW_USERNAME: ${KUBEFLOW_USERNAME}
+      KUBEFLOW_PASSWORD: ${KUBEFLOW_PASSWORD}
+      KUBEFLOW_HOST: ${KUBEFLOW_HOST}
+      PRODUCTION_MODE: true
