@@ -6,3 +6,4 @@ __pycache__
 model.txt
 __init__.py
 .devenv
+*.envrc
