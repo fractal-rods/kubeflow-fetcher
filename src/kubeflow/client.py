@@ -3,6 +3,7 @@ from src.authsession import get_istio_auth_session
 import os
 
 EXPERIMENT = "AIF team development experiments"
+PIPELINE_NAME = "add-pipeline"
 
 
 def login_to_kubeflow() -> requests.Session:
@@ -22,7 +23,7 @@ def get_pipeline_id(session: requests.Session) -> str:
         f"{os.environ.get('KUBEFLOW_HOST')}/pipeline/apis/v1beta1/pipelines"
     ).json()
     for pipeline in response["pipelines"]:
-        if pipeline["name"] == "add_pipeline.yaml":
+        if pipeline["name"] == PIPELINE_NAME:
             return pipeline["id"]
     print("No pipeline found.")
     exit(1)
@@ -51,6 +52,7 @@ def run_pipeline(
     )
 
     data = response.json()
+    print(data)
     return data["run"]["id"]
 
 

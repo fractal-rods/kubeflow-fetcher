@@ -1,8 +1,8 @@
 import requests
 import os
 
-REPOSITORY = "fractal"
-BRANCH = "uoulu-testing"
+REPOSITORY = "uc4"
+BRANCH = "upload-test"
 MODEL = "model.txt"
 
 
@@ -54,4 +54,5 @@ def post_data(token: str) -> None:
         print("OK")
     else:
         print("\nUpload failed:", response.status_code)
+        print(response.json())
         exit(1)
