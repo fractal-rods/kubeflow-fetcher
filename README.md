@@ -20,6 +20,7 @@ Create `.env` and populate it with:
 "KUBEFLOW_HOST"=<...>,
 "KUBEFLOW_USERNAME"=<...>,
 "KUBEFLOW_PASSWORD"=<...>,
+"RELAY_HOST"=<...>
 ```
 
 Run this command to initialize the .env

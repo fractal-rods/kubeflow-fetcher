@@ -1,7 +1,7 @@
 import os
 from time import sleep, time
 import urllib3
-from src.lakefs.client import (
+from src.lakefs import (
     login_to_lakefs,
     get_data,
     post_data,
@@ -47,14 +47,20 @@ if __name__ == "__main__":
     print(end="Requesting run from relay...", flush=True)
     run_id = request_run()
     print("OK")
-    print("Waiting for run to complete.")
     start = time()
+    count = 0
     while not check_status(run_id):
+        count += 1
         now = time()
-        print("Run-time {:.2f} seconds.".format(now - start), end="\r")
+        print(
+            f"Run in progress, re-checking in 5 seconds. [Attempt #{count}]", end="\r"
+        )
         sleep(5)
-    print("\nRun finished after {:.2f} seconds.".format(now - start))
+    print("\nTraining finished after {:.2f} seconds.".format(time() - start))
 
     # Step 3. Download results
+    print(end="Downloading model from repository...")
     get_data(token)
-    print("FINISHED :--DDD")
+    print("OK")
+    print("Task completed succesfully!")
+    exit(0)

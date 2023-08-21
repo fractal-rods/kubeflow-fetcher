@@ -1,4 +1,4 @@
-from src.relay.server import run_server
+from src.server import run_server
 
 
 if __name__ == "__main__":

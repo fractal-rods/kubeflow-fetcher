@@ -1,5 +1,5 @@
 from bottle import Bottle, run
-from src.relay.utils import get_mode, check_config, start_pipeline, get_pipeline_status
+from src.utils import get_mode, check_config, start_pipeline, get_pipeline_status
 import logging
 
 logging.captureWarnings(True)
@@ -24,3 +24,7 @@ def run_server():
         run(app, host="0.0.0.0", port=8000, server="paste")
     else:
         run(app, host="localhost", port=8000)
+
+
+if __name__ == "__main__":
+    run_server()

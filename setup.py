@@ -1,14 +1,41 @@
+from argparse import ArgumentParser
+from dataclasses import dataclass
 import os
 from src.authsession import get_istio_auth_session
-from src.utils import parse_args
 import urllib3
 import requests
 
 urllib3.disable_warnings()
 
+
 PIPELINE_NAME = "test-pipeline"
 
+
+@dataclass
+class ProgramArgs:
+    action: str
+
+
+def create_parser() -> ArgumentParser:
+    parser = ArgumentParser(
+        description="Create, delete or check status of the fetcher pipeline."
+    )
+    parser.add_argument(
+        "action",
+        choices=["create", "delete", "status"],
+        type=str,
+    )
+    return parser
+
+
+def parse_args() -> ProgramArgs:
+    parser = create_parser()
+    return ProgramArgs(**vars(parser.parse_args()))
+
+
 if __name__ == "__main__":
+    print("TODO: update filenames!")
+    exit(1)
     try:
         HOST = os.environ.get("KUBEFLOW_HOST")
         USER = os.environ.get("KUBEFLOW_USERNAME")

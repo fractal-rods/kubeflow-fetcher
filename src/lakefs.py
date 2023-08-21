@@ -21,19 +21,16 @@ def login_to_lakefs() -> str:
 
 
 def get_data(token: str) -> requests.Response:
-    print("Downloading new model...", end="")
     url = (
         os.environ.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/refs/{BRANCH}/objects?path={MODEL}"
     )
     response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
     if response.status_code == 200:
-        print("OK")
+        return response
     else:
         print("Couldn't download model file:", response.status_code)
         exit(1)
-
-    return response
 
 
 def post_data(token: str) -> None:
