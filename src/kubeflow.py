@@ -1,9 +1,10 @@
 import requests
 from src.authsession import get_istio_auth_session
 import os
+from src.lakefs import REPOSITORY, BRANCH
 
 EXPERIMENT = "AIF team development experiments"
-PIPELINE_NAME = "add-pipeline"
+PIPELINE_NAME = "training-mock-pipeline"
 
 
 def login_to_kubeflow() -> requests.Session:
@@ -38,6 +39,13 @@ def run_pipeline(
             "name": "fetcher-test-run",
             "pipeline_spec": {
                 "pipeline_id": pipeline_id,
+                "parameters": [
+                    {"name": "lake_host", "value": os.environ.get("LAKEFS_HOST")},
+                    {"name": "lake_user", "value": os.environ.get("LAKEFS_ID")},
+                    {"name": "lake_pwd", "value": os.environ.get("LAKEFS_TOKEN")},
+                    {"name": "lake_repo", "value": REPOSITORY},
+                    {"name": "lake_ref", "value": BRANCH},
+                ],
             },
             "resource_references": [
                 {
@@ -52,7 +60,6 @@ def run_pipeline(
     )
 
     data = response.json()
-    print(data)
     return data["run"]["id"]
 
 

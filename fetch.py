@@ -20,6 +20,9 @@ def request_run() -> str:
 def check_status(run_id: str) -> bool:
     url = os.environ.get("RELAY_HOST")
     response = requests.get(f"{url}/pipelines/{run_id}")
+    if response.json()["status"] == "Failed":
+        print("\nRun failed!")
+        exit(0)
     return response.json()["status"] == "Succeeded"
 
 
@@ -59,7 +62,7 @@ if __name__ == "__main__":
     print("\nTraining finished after {:.2f} seconds.".format(time() - start))
 
     # Step 3. Download results
-    print(end="Downloading model from repository...")
+    print(end="Downloading model from repository...", flush=True)
     get_data(token)
     print("OK")
     print("Task completed succesfully!")

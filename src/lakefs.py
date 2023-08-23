@@ -3,7 +3,8 @@ import os
 
 REPOSITORY = "uc4"
 BRANCH = "upload-test"
-MODEL = "model.txt"
+MODEL = "yolov3.weights"
+TRAINING_DATA = "training_data.txt"
 
 
 def login_to_lakefs() -> str:
@@ -27,6 +28,8 @@ def get_data(token: str) -> requests.Response:
     )
     response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
     if response.status_code == 200:
+        with open(MODEL, "wb") as file:
+            file.write(response.content)
         return response
     else:
         print("Couldn't download model file:", response.status_code)
@@ -34,19 +37,21 @@ def get_data(token: str) -> requests.Response:
 
 
 def post_data(token: str) -> None:
-    print("Uploading model...", end="")
+    print("Uploading training data...", end="")
+
     url = (
         os.environ.get("LAKEFS_HOST")
-        + f"/api/v1/repositories/{REPOSITORY}/branches/{BRANCH}/objects?path={MODEL}"
+        + f"/api/v1/repositories/{REPOSITORY}/branches/{BRANCH}"
+        + f"/objects?path={TRAINING_DATA}"
     )
-    with open(MODEL, "rb") as file:
-        response = requests.post(
-            url,
-            files={"content": file},
-            headers={
-                "Authorization": f"Bearer {token}",
-            },
-        )
+
+    response = requests.post(
+        url,
+        files={"content": open(TRAINING_DATA, "rb")},
+        headers={
+            "Authorization": f"Bearer {token}",
+        },
+    )
     if response.status_code == 201:
         print("OK")
     else:
