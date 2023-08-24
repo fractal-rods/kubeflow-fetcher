@@ -26,14 +26,18 @@ def get_data(token: str) -> requests.Response:
         os.environ.get("LAKEFS_HOST")
         + f"/api/v1/repositories/{REPOSITORY}/refs/{BRANCH}/objects?path={MODEL}"
     )
-    response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
-    if response.status_code == 200:
-        with open(MODEL, "wb") as file:
-            file.write(response.content)
-        return response
-    else:
-        print("Couldn't download model file:", response.status_code)
-        exit(1)
+
+    with open(MODEL, "wb") as file:
+        try:
+            with requests.get(
+                url, headers={"Authorization": f"Bearer {token}"}, stream=True
+            ) as stream:
+                stream.raise_for_status()
+                for chunk in stream.iter_content(chunk_size=8192):
+                    file.write(chunk)
+        except Exception as e:
+            print("Couldn't download model file:", e)
+            exit(1)
 
 
 def post_data(token: str) -> None:
