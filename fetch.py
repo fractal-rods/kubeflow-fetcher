@@ -62,8 +62,7 @@ if __name__ == "__main__":
     print("\nTraining finished after {:.2f} seconds.".format(time() - start))
 
     # Step 3. Download results
-    print(end="Downloading model from repository...", flush=True)
+    print("Downloading model from repository...", flush=True)
     get_data(token)
-    print("OK")
     print("Task completed succesfully!")
     exit(0)
