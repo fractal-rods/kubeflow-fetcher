@@ -35,7 +35,7 @@ def get_data(token: str) -> requests.Response:
                 total = int(stream.headers.get("content-length", 0))
                 current = 0
                 stream.raise_for_status()
-                for chunk in stream.iter_content(chunk_size=4096):
+                for chunk in stream.iter_content(chunk_size=8192):
                     if total is not None and total != 0:
                         current += len(chunk)
                         done = int((50 * current) / total)
