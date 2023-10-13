@@ -7,3 +7,4 @@ __init__.py
 .devenv
 *.envrc
 *.weights
+training_data.txt
