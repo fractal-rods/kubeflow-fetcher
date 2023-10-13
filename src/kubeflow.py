@@ -4,7 +4,7 @@ import os
 from src.lakefs import REPOSITORY, BRANCH
 
 EXPERIMENT = "AIF team development experiments"
-PIPELINE_NAME = "training-mock-pipeline"
+PIPELINE_NAME = "demoday-pipeline"
 
 
 def login_to_kubeflow() -> requests.Session:
