@@ -25,9 +25,7 @@ def get_pipeline_status(run_id: str) -> dict:
     session = get_session()
     response = session.get(f"{url}/pipeline/apis/v1beta1/runs/{run_id}")
     data = response.json()
-    run = data["run"]
-    del run["pipeline_spec"]
-    return run
+    return data["run"]
 
 
 def start_pipeline() -> str:
