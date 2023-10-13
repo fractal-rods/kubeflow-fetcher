@@ -3,6 +3,7 @@
 __pycache__
 *.pem
 .ruff_cache
-model.txt
 __init__.py
 .devenv
+*.envrc
+*.weights
