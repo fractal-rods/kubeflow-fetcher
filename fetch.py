@@ -59,7 +59,7 @@ if __name__ == "__main__":
             f"Run in progress, re-checking in 5 seconds. [Attempt #{count}]", end="\r"
         )
         sleep(5)
-    print("\nTraining finished after {:.2f} seconds.".format(time() - start))
+    print("\nRun finished after {:.2f} seconds.".format(time() - start))
 
     # Step 3. Download results
     print(end="Downloading file from repository...", flush=True)

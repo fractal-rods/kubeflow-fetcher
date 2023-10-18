@@ -29,7 +29,7 @@ def get_data(token: str) -> requests.Response:
     )
     response = requests.get(url, headers={"Authorization": f"Bearer {token}"})
     if response.status_code == 200:
-        with open(TRAINING_DATA, "w") as file:
+        with open(TRAINING_DATA, "wb") as file:
             file.write(response.content)
         return response
     else:
